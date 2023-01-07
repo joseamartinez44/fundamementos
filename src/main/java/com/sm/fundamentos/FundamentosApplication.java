@@ -4,6 +4,7 @@ import com.sm.fundamentos.bean.MyBean;
 import com.sm.fundamentos.bean.MyBeanWithDependency;
 import com.sm.fundamentos.bean.MyBeanWithProperties;
 import com.sm.fundamentos.component.ComponentDependency;
+import com.sm.fundamentos.pojo.UserPojo;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -16,6 +17,7 @@ public class FundamentosApplication implements CommandLineRunner {
     private final MyBean myBean;
     private final MyBeanWithDependency myBeanWithDependency;
     private final MyBeanWithProperties myBeanWithProperties;
+    private final UserPojo userPojo;
 
     //	Si dos componentes implementan la misma dependencia, hay que poner la anotación Qualifier con el nombre del componente empezando en minúscula
     //	Se inyecta la dependencia en el constructor
@@ -23,11 +25,13 @@ public class FundamentosApplication implements CommandLineRunner {
             @Qualifier("componentImplementTwo") ComponentDependency componentDependency,
             MyBean myBean,
             MyBeanWithDependency myBeanWithDependency,
-            MyBeanWithProperties myBeanWithProperties) {
+            MyBeanWithProperties myBeanWithProperties,
+            UserPojo userPojo) {
         this.componentDependency = componentDependency;
         this.myBean = myBean;
         this.myBeanWithDependency = myBeanWithDependency;
         this.myBeanWithProperties = myBeanWithProperties;
+        this.userPojo = userPojo;
     }
 
     public static void main(String[] args) {
@@ -40,5 +44,6 @@ public class FundamentosApplication implements CommandLineRunner {
         myBean.print();
         myBeanWithDependency.printBeanWithDependency();
         myBeanWithProperties.function();
+        System.out.println(userPojo.getEmail() + " " + userPojo.getPassword() + " " + userPojo.getAge());
     }
 }
