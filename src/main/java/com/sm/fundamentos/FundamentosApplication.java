@@ -2,6 +2,7 @@ package com.sm.fundamentos;
 
 import com.sm.fundamentos.bean.MyBean;
 import com.sm.fundamentos.bean.MyBeanWithDependency;
+import com.sm.fundamentos.bean.MyBeanWithProperties;
 import com.sm.fundamentos.component.ComponentDependency;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
@@ -14,13 +15,19 @@ public class FundamentosApplication implements CommandLineRunner {
     private final ComponentDependency componentDependency;
     private final MyBean myBean;
     private final MyBeanWithDependency myBeanWithDependency;
+    private final MyBeanWithProperties myBeanWithProperties;
 
     //	Si dos componentes implementan la misma dependencia, hay que poner la anotación Qualifier con el nombre del componente empezando en minúscula
     //	Se inyecta la dependencia en el constructor
-    public FundamentosApplication(@Qualifier("componentImplementTwo") ComponentDependency componentDependency, MyBean myBean, MyBeanWithDependency myBeanWithDependency) {
+    public FundamentosApplication(
+            @Qualifier("componentImplementTwo") ComponentDependency componentDependency,
+            MyBean myBean,
+            MyBeanWithDependency myBeanWithDependency,
+            MyBeanWithProperties myBeanWithProperties) {
         this.componentDependency = componentDependency;
         this.myBean = myBean;
         this.myBeanWithDependency = myBeanWithDependency;
+        this.myBeanWithProperties = myBeanWithProperties;
     }
 
     public static void main(String[] args) {
@@ -32,5 +39,6 @@ public class FundamentosApplication implements CommandLineRunner {
         componentDependency.saludar();
         myBean.print();
         myBeanWithDependency.printBeanWithDependency();
+        myBeanWithProperties.function();
     }
 }
