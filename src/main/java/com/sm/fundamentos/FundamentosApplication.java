@@ -56,8 +56,14 @@ public class FundamentosApplication implements CommandLineRunner {
     public void run(String... args) {
 //        ejemplosAnteriores();
         saveUsersInDataBase();
-        jpqlMethods();
-        queryMethods();
+//        jpqlMethods();
+//        queryMethods();
+        jpqlNamedParameters();
+    }
+
+    private void jpqlNamedParameters() {
+        LOGGER.info("Usuario con named parameter: getAllBirthdayAndEmail: " + userRepository.getAllBirthdayAndEmail(LocalDate.of(2021, 11, 12), "enrique@domain.com")
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado")));
     }
 
     private void queryMethods() {
@@ -101,8 +107,10 @@ public class FundamentosApplication implements CommandLineRunner {
         User user9 = new User("Paola", "paola@domain.com", LocalDate.of(2021, 4, 10));
         User user10 = new User("Carol", "carol@domain.com", LocalDate.of(2021, 7, 15));
         User user11 = new User("Denji", "denji@doamin.com", LocalDate.of(2021, 10, 13));
+        User user12 = new User("Makima", "makima@domain.com", LocalDate.of(2021, 1, 2));
+        User user13 = new User("Polina", "polina@domain.com", LocalDate.of(2021, 4, 8));
 
-        List<User> list = Arrays.asList(user1, user2, user3, user4, user5, user6, user7, user8, user9, user10, user11);
+        List<User> list = Arrays.asList(user1, user2, user3, user4, user5, user6, user7, user8, user9, user10, user11, user12, user13);
         list.stream().forEach(userRepository::save);
 //        Otra forma de hacer lo anterior es: userRepository.saveAll(list);
     }
