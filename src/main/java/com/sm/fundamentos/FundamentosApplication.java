@@ -65,6 +65,18 @@ public class FundamentosApplication implements CommandLineRunner {
 
         LOGGER.info("Usuario con query method findByEmailAndName: " + userRepository.findByEmailAndName("marco@domain.com", "Marco")
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado")));
+
+        userRepository.findByNameLike("%a%").stream().forEach(user -> LOGGER.info("Usuarios con query method findByNameLike: " + user));
+
+        userRepository.findByNameOrEmail(null, "paola@domain.com").stream().forEach(user -> LOGGER.info("Usuarios con query method findByNameOrEmail: " + user));
+
+        userRepository.findByBirthdayBetween(LocalDate.of(2021, 1, 1), LocalDate.of(2021, 12, 31))
+                .stream()
+                .forEach(user -> LOGGER.info("Usuarios con query method findByBirthdayBetween: " + user));
+
+        userRepository.findByNameLikeOrderByIdDesc("%a%").stream().forEach(user -> LOGGER.info("Usuarios con query method findByNameLikeOrderByIdDesc: " + user));
+
+        userRepository.findByNameContainingOrderByIdAsc("o").stream().forEach(user -> LOGGER.info("Usuarios con query method findByNameContainingOrderByIdAsc: " + user));
     }
 
     private void jpqlMethods() {
