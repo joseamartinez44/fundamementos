@@ -7,6 +7,7 @@ import com.sm.fundamentos.component.ComponentDependency;
 import com.sm.fundamentos.entity.User;
 import com.sm.fundamentos.pojo.UserPojo;
 import com.sm.fundamentos.repository.UserRepository;
+import com.sm.fundamentos.service.UserService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -30,6 +31,7 @@ public class FundamentosApplication implements CommandLineRunner {
     private final MyBeanWithProperties myBeanWithProperties;
     private final UserPojo userPojo;
     private final UserRepository userRepository;
+    private final UserService userService;
 
     //	Si dos componentes implementan la misma dependencia, hay que poner la anotación Qualifier con el nombre del componente empezando en minúscula
     //	Se inyecta la dependencia en el constructor
@@ -39,13 +41,15 @@ public class FundamentosApplication implements CommandLineRunner {
             MyBeanWithDependency myBeanWithDependency,
             MyBeanWithProperties myBeanWithProperties,
             UserPojo userPojo,
-            UserRepository userRepository) {
+            UserRepository userRepository,
+            UserService userService) {
         this.componentDependency = componentDependency;
         this.myBean = myBean;
         this.myBeanWithDependency = myBeanWithDependency;
         this.myBeanWithProperties = myBeanWithProperties;
         this.userPojo = userPojo;
         this.userRepository = userRepository;
+        this.userService = userService;
     }
 
     public static void main(String[] args) {
@@ -58,7 +62,21 @@ public class FundamentosApplication implements CommandLineRunner {
         saveUsersInDataBase();
 //        jpqlMethods();
 //        queryMethods();
-        jpqlNamedParameters();
+//        jpqlNamedParameters();
+        saveWithErrorTransactional();
+    }
+
+    private void saveWithErrorTransactional() {
+        User test1 = new User("test1", "test1@domain.com", LocalDate.now());
+        User test2 = new User("test2", "test2@domain.com", LocalDate.now());
+        User test3 = new User("test3", "test3@domain.com", LocalDate.now());
+        User test4 = new User("test4", "test4@domain.com", LocalDate.now());
+
+        List<User> users = Arrays.asList(test1, test2, test3, test4);
+
+        userService.saveTransactional(users);
+
+        userService.getAllUsers().stream().forEach(user -> LOGGER.info("Este es el usuario dentro del método transaccional: " + user));
     }
 
     private void jpqlNamedParameters() {
