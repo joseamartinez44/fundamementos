@@ -38,7 +38,7 @@ public class UserRestController {
         return getUser.getAll();
     }
 
-    @PostMapping("/post")
+    @PostMapping("/")
     ResponseEntity<User> postUser(@RequestBody User user) {
         return new ResponseEntity<>(createUser.save(user), HttpStatus.CREATED);
     }

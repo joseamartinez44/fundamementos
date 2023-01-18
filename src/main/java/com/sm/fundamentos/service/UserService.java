@@ -12,7 +12,7 @@ import java.util.List;
 @Service
 public class UserService {
     private final Log LOG = LogFactory.getLog(UserService.class);
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -40,13 +40,12 @@ public class UserService {
     }
 
     public User update(User user, Long id) {
-        userRepository.findById(id).map(user1 -> {
+        return userRepository.findById(id).map(user1 -> {
             user1.setName(user.getName());
             user1.setEmail(user.getEmail());
             user1.setBirthday(user.getBirthday());
             user1.setPosts(user.getPosts());
             return userRepository.save(user1);
-        });
-        return user;
+        }).get();
     }
 }
