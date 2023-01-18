@@ -18,6 +18,7 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
+//    La anotación Transactional sirve para aplicar el ACID de las bases de datos (Atomicity, Consistency, Isolation and Durability), para hacer rollback y no dejar hacer commit a la base de datos
     @Transactional
     public void saveTransactional(List<User> users) {
         users.stream()

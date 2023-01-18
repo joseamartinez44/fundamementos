@@ -24,7 +24,8 @@ public class User {
     private Long id;
     @Column(length = 50)
     private String name;
-    @Column(length = 50)
+//    Para la clase de Rollback con la anotación transactional se agregó unique=true
+    @Column(length = 50, unique = true)
     private String email;
     private LocalDate birthday;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
