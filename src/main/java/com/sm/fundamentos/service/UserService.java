@@ -18,7 +18,7 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-//    La anotación Transactional sirve para aplicar el ACID de las bases de datos (Atomicity, Consistency, Isolation and Durability), para hacer rollback y no dejar hacer commit a la base de datos
+    //    La anotación Transactional sirve para aplicar el ACID de las bases de datos (Atomicity, Consistency, Isolation and Durability), para hacer rollback y no dejar hacer commit a la base de datos
     @Transactional
     public void saveTransactional(List<User> users) {
         users.stream()
@@ -29,5 +29,24 @@ public class UserService {
 
     public List<User> getAllUsers() {
         return userRepository.findAll();
+    }
+
+    public User save(User user) {
+        return userRepository.save(user);
+    }
+
+    public void delete(Long id) {
+        userRepository.delete(new User(id));
+    }
+
+    public User update(User user, Long id) {
+        userRepository.findById(id).map(user1 -> {
+            user1.setName(user.getName());
+            user1.setEmail(user.getEmail());
+            user1.setBirthday(user.getBirthday());
+            user1.setPosts(user.getPosts());
+            return userRepository.save(user1);
+        });
+        return user;
     }
 }

@@ -24,7 +24,7 @@ public class User {
     private Long id;
     @Column(length = 50)
     private String name;
-//    Para la clase de Rollback con la anotación transactional se agregó unique=true
+    //    Para la clase de Rollback con la anotación transactional se agregó unique=true
     @Column(length = 50, unique = true)
     private String email;
     private LocalDate birthday;
@@ -39,6 +39,10 @@ public class User {
         this.name = name;
         this.email = email;
         this.birthday = birthday;
+    }
+
+    public User(Long id) {
+        this.id = id;
     }
 
     public Long getId() {
