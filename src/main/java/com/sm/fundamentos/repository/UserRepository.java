@@ -5,6 +5,7 @@ import com.sm.fundamentos.entity.User;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+//import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
@@ -12,6 +13,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+// Se cambió JpaRepository por PagingAndSortingRepository, pero no funcionó, en los comentarios de Platzi dice que se puede dejar como estaba y seguiría funcionando y sí funcionó
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
     @Query("Select u FROM User u WHERE u.email=?1")
@@ -39,4 +41,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
             "WHERE u.birthday=:parametroFecha " +
             "AND u.email=:parametroEmail")
     Optional<UserDto> getAllBirthdayAndEmail(@Param("parametroFecha") LocalDate date, @Param("parametroEmail") String email);
+
+    List<User> findAll();
 }
